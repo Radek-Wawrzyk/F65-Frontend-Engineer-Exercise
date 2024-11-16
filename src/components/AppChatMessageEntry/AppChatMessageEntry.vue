@@ -1,6 +1,6 @@
 <template>
   <div class="app-chat-entry" :class="{ 'app-chat-entry--author': isMadeByAuthor }">
-    <div class="app-chat-entry__avatar">
+    <div class="app-chat-entry__avatar" v-tooltip="entry.from.firstName">
       <img
         :src="entry.from.thumbnail"
         :alt="entry.from.firstName"

@@ -4,11 +4,12 @@ import type { ChatMessage, ChatUser } from '@/types/User'
 import { chatService } from '@/api/chat'
 
 const useChatStore = defineStore('chat', () => {
+  const loading = ref(false)
   const messages = ref<ChatMessage[]>([])
   const currentUser = ref<ChatUser | null>(null)
   const getConversation = computed(() => messages.value)
 
-  const sendMessage = (message: string) => {
+  const sendMessage = async (message: string) => {
     if (!currentUser.value) return
 
     const newMessage: ChatMessage = {
@@ -18,7 +19,16 @@ const useChatStore = defineStore('chat', () => {
       date: new Date().toISOString(),
     }
 
-    messages.value.push(newMessage)
+    try {
+      loading.value = true
+      // INFO: We can make a delay here to simulate a real API call (second parameter is the delay in ms)
+      await chatService.sendMessage(message, 0)
+      messages.value.push(newMessage)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      loading.value = false
+    }
   }
 
   const isMessageFromCurrentUser = (message: ChatMessage) => {
@@ -27,16 +37,26 @@ const useChatStore = defineStore('chat', () => {
 
   const init = async () => {
     try {
-      const user = await chatService.getCurrentUser()
-      const conversations = await chatService.getChatHistory()
-      currentUser.value = user as any
-      messages.value = conversations as any
+      loading.value = true
+      // INFO: We can make a delay here to simulate a real API call (second parameter is the delay in ms)
+      currentUser.value = await chatService.getCurrentUser(0)
+      messages.value = await chatService.getChatHistory(0)
     } catch (error) {
       console.error(error)
+    } finally {
+      loading.value = false
     }
   }
 
-  return { messages, sendMessage, init, currentUser, isMessageFromCurrentUser, getConversation }
+  return {
+    messages,
+    sendMessage,
+    init,
+    currentUser,
+    isMessageFromCurrentUser,
+    getConversation,
+    loading,
+  }
 })
 
 export { useChatStore }

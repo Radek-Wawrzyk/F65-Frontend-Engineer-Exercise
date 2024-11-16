@@ -1,28 +1,26 @@
-import type { ChatUser } from '@/types/User'
-import { generateUUID } from '@/utils/uuid'
+import type { ChatUser, ChatMessage } from '@/types/User'
 import { currentUser, conversation } from '@/mocks/chat'
 
 const chatService = {
-  sendMessage: async (message: string, currentUser: ChatUser) => {
-    const payload = {
-      message,
-      id: generateUUID(),
-      date: new Date().toISOString(),
-      from: currentUser,
-    }
+  sendMessage: async (message: string, timeout = 0) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true)
+      }, timeout)
+    })
   },
-  getCurrentUser: async () => {
+  getCurrentUser: async (timeout = 0): Promise<ChatUser> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(currentUser)
-      }, 500)
+      }, timeout)
     })
   },
-  getChatHistory: async () => {
+  getChatHistory: async (timeout = 0): Promise<ChatMessage[]> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(conversation)
-      }, 500)
+      }, timeout)
     })
   },
 }
