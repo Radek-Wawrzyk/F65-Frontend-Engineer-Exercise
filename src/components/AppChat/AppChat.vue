@@ -1,8 +1,7 @@
 <template>
   <div class="app-chat">
     <section class="app-chat__content">
-      <!-- AppChatContent component here -->
-      s
+      <app-chat-conversation-area />
     </section>
 
     <footer class="app-chat__controls">
@@ -13,7 +12,9 @@
 
 <script setup lang="ts">
 import AppChatCompose from '../AppChatCompose/AppChatCompose.vue'
-import { ref } from 'vue'
+import AppChatConversationArea from '../AppChatConversationArea/AppChatConversationArea.vue'
+
+import { onMounted, ref } from 'vue'
 import { useChatStore } from '@/stores/chat'
 
 const chatStore = useChatStore()
@@ -25,6 +26,10 @@ const sendReply = () => {
   console.log('Sending message:', message.value)
   message.value = ''
 }
+
+onMounted(async () => {
+  await chatStore.init()
+})
 </script>
 
 <style lang="sass" scoped src="./AppChat.scss" />
