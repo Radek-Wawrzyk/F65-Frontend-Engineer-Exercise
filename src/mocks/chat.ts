@@ -33,7 +33,7 @@ Hope you're not too worried about everything thats is going on right now.`,
   {
     id: 3,
     from: jack,
-    message: 'Heeey! Long time! Thanks for your message, man!',
+    message: 'Heeey! Long time!\nThanks for your message, man!',
     date: '2020-04-07 10:06:15',
   },
   {

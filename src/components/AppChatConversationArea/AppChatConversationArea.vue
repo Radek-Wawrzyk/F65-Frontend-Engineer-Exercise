@@ -2,7 +2,7 @@
   <ul class="app-chat-conversation">
     <li class="app-chat-conversation__entry" v-for="message in conversation" :key="message.id">
       <app-chat-message-entry
-        :message="message"
+        :entry="message"
         :is-made-by-author="isMessageMadeByAuthor(message)"
       />
     </li>
