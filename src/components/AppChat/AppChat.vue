@@ -20,16 +20,23 @@ import { useChatStore } from '@/stores/chat'
 const chatStore = useChatStore()
 const message = ref('')
 const chatConversationRef = ref<HTMLDivElement | null>(null)
+const hasErrorSubmit = ref(false)
 
 const scrollToBottom = () => {
   if (!chatConversationRef.value) return
   chatConversationRef.value.scrollTop = chatConversationRef.value.scrollHeight
 }
 
-const sendReply = () => {
-  chatStore.sendMessage(message.value)
-  scrollToBottom()
-  message.value = ''
+const sendReply = async () => {
+  try {
+    await chatStore.sendMessage(message.value)
+    scrollToBottom()
+    message.value = ''
+    hasErrorSubmit.value = false
+  } catch (error) {
+    alert(error)
+    hasErrorSubmit.value = true
+  }
 }
 
 onMounted(async () => {

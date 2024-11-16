@@ -26,6 +26,7 @@ const useChatStore = defineStore('chat', () => {
       messages.value.push(newMessage)
     } catch (error) {
       console.error(error)
+      return Promise.reject(error)
     } finally {
       loading.value = false
     }

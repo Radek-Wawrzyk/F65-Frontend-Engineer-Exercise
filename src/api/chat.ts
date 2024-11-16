@@ -3,9 +3,13 @@ import { currentUser, conversation } from '@/mocks/chat'
 
 const chatService = {
   sendMessage: async (message: string, timeout = 0) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(true)
+        if (Math.random() < 0.1) {
+          reject(new Error('Failed to send message - Please try again.'))
+        } else {
+          resolve(true)
+        }
       }, timeout)
     })
   },

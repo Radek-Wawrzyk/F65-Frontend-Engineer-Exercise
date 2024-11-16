@@ -38,7 +38,7 @@ import { onMounted, ref } from 'vue'
 
 const emit = defineEmits(['submit', 'update:modelValue'])
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: String,
     default: '',
@@ -46,13 +46,26 @@ defineProps({
 })
 
 const COMPOSE_PADDING_BOTTOM = 16
+const DEFAULT_HEIGHT = {
+  TEXTAREA: 26,
+  COMPOSE: 42,
+}
+
 const textareaRef = ref<HTMLTextAreaElement | null>(null)
 const textareaHeight = ref(0)
 const maxTextareaHeight = ref(60)
 const composeHeight = ref(80)
 
 const onMessageSend = () => {
+  if (!props.modelValue) return
+
   emit('submit')
+  textareaHeight.value = DEFAULT_HEIGHT.TEXTAREA
+  composeHeight.value = DEFAULT_HEIGHT.COMPOSE
+
+  if (textareaRef.value) {
+    textareaRef.value.style.height = 'auto'
+  }
 }
 
 const onInput = (event: Event) => {
