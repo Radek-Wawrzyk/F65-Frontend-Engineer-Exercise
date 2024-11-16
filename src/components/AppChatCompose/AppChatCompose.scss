@@ -1,0 +1,30 @@
+.app-chat-compose {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  border-top: 1px solid #ccc;
+  height: 100%;
+
+  &__input {
+    flex: 1;
+    padding: 4px 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    border-radius: 29px;
+    background-color: var(--background-color--tertiary);
+    border: none;
+    resize: none;
+  }
+
+  &__send-button {
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
