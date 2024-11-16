@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { ChatMessage, ChatUser } from '@/types/User'
 import { chatService } from '@/api/chat'
@@ -6,9 +6,19 @@ import { chatService } from '@/api/chat'
 const useChatStore = defineStore('chat', () => {
   const messages = ref<ChatMessage[]>([])
   const currentUser = ref<ChatUser | null>(null)
+  const getConversation = computed(() => messages.value)
 
-  const addMessage = (message: string) => {
-    console.log(message)
+  const sendMessage = (message: string) => {
+    if (!currentUser.value) return
+
+    const newMessage: ChatMessage = {
+      id: messages.value.length + 1,
+      from: currentUser.value,
+      message,
+      date: new Date().toISOString(),
+    }
+
+    messages.value.push(newMessage)
   }
 
   const isMessageFromCurrentUser = (message: ChatMessage) => {
@@ -26,7 +36,7 @@ const useChatStore = defineStore('chat', () => {
     }
   }
 
-  return { messages, addMessage, init, currentUser, isMessageFromCurrentUser }
+  return { messages, sendMessage, init, currentUser, isMessageFromCurrentUser, getConversation }
 })
 
 export { useChatStore }

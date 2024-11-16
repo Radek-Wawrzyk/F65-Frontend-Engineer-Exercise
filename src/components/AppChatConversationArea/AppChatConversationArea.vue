@@ -18,7 +18,7 @@ import { computed } from 'vue'
 
 const chatStore = useChatStore()
 
-const conversation = computed(() => chatStore.messages)
+const conversation = computed(() => chatStore.getConversation)
 
 const isMessageMadeByAuthor = (message: ChatMessage) => {
   return chatStore.isMessageFromCurrentUser(message)

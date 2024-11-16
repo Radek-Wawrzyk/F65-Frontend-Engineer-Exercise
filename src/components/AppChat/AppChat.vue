@@ -1,6 +1,6 @@
 <template>
   <div class="app-chat">
-    <section class="app-chat__content">
+    <section class="app-chat__content" ref="chatConversationRef">
       <app-chat-conversation-area />
     </section>
 
@@ -19,11 +19,16 @@ import { useChatStore } from '@/stores/chat'
 
 const chatStore = useChatStore()
 const message = ref('')
+const chatConversationRef = ref<HTMLDivElement | null>(null)
+
+const scrollToBottom = () => {
+  if (!chatConversationRef.value) return
+  chatConversationRef.value.scrollTop = chatConversationRef.value.scrollHeight
+}
 
 const sendReply = () => {
-  // TODO: Scroll to bottom of chat content
-  // TODO: Send message to chat store
-  console.log('Sending message:', message.value)
+  chatStore.sendMessage(message.value)
+  scrollToBottom()
   message.value = ''
 }
 
