@@ -58,7 +58,7 @@ const onMessageSend = () => {
 const onInput = (event: Event) => {
   const target = event.target as HTMLTextAreaElement
   emit('update:modelValue', target.value)
-  calculateHeight()
+  calculateTextAreaHeight()
 }
 
 const onEnterPress = (event: KeyboardEvent) => {
@@ -67,7 +67,7 @@ const onEnterPress = (event: KeyboardEvent) => {
   }
 }
 
-const calculateHeight = () => {
+const calculateTextAreaHeight = () => {
   if (!textareaRef.value) return
   const newHeight = textareaRef.value.scrollHeight
 
@@ -85,7 +85,7 @@ const onKeyPress = (event: KeyboardEvent) => {
 
 onMounted(() => {
   if (textareaRef.value) {
-    calculateHeight()
+    calculateTextAreaHeight()
   }
 })
 </script>
