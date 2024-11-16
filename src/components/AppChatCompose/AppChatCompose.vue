@@ -49,7 +49,7 @@ const COMPOSE_PADDING_BOTTOM = 16
 const textareaRef = ref<HTMLTextAreaElement | null>(null)
 const textareaHeight = ref(0)
 const maxTextareaHeight = ref(60)
-const composeHeight = ref(0)
+const composeHeight = ref(80)
 
 const onMessageSend = () => {
   emit('submit')
@@ -69,9 +69,10 @@ const onEnterPress = (event: KeyboardEvent) => {
 
 const calculateHeight = () => {
   if (!textareaRef.value) return
+  const newHeight = textareaRef.value.scrollHeight
 
-  textareaRef.value.style.height = 'auto'
-  textareaHeight.value = textareaRef.value.scrollHeight
+  // INFO: Limit the height to the maximum height allowed
+  textareaHeight.value = Math.min(newHeight, maxTextareaHeight.value)
   textareaRef.value.style.height = `${textareaHeight.value}px`
   composeHeight.value = textareaHeight.value + COMPOSE_PADDING_BOTTOM
 }
